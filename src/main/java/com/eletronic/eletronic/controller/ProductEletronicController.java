@@ -1,6 +1,6 @@
 package com.eletronic.eletronic.controller;
 
-import com.eletronic.eletronic.producteletronic.ProductEletronicEntity;
+import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
 import com.eletronic.eletronic.service.ProductEletronicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,11 @@ public class ProductEletronicController {
     public ResponseEntity<List<ProductEletronicEntity>> getAllProductsEletronics(){
         List<ProductEletronicEntity> eletronics = this.service.getAllProduct();
 
-        return ResponseEntity.ok().body(eletronics);
+        List<ProductEletronicEntity> eletronicsNotDeleted = eletronics.stream()
+                .filter(eletronic -> !eletronic.isDeleted())
+                .toList();
+
+        return ResponseEntity.ok().body(eletronicsNotDeleted);
     }
 
     @GetMapping("/eletronic/{id}")
@@ -49,9 +53,10 @@ public class ProductEletronicController {
     }
 
     @DeleteMapping("/eletronic/{id}")
-    public ResponseEntity<ProductEletronicEntity>  deleteProductEletronic(@PathVariable("id") Long id) {
-        this.service.deleteProduct(id);
+    public void deleteProductEletronic(@PathVariable("id") Long id) {
 
-        return ResponseEntity.ok().build();
+        ProductEletronicEntity eletronic = this.service.getProductFindById(id);
+        this.service.deleteProduct(eletronic.getId());
+
     }
 }
