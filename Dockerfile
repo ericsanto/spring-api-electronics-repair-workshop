@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY /target/*.jar /app/app.jar
 
-FROM cgr.dev/chainguard/jre AS runner
+FROM cgr.dev/chainguard/jre AS prod
 
 WORKDIR /app
 

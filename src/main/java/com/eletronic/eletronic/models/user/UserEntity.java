@@ -1,7 +1,9 @@
-package com.eletronic.eletronic.user;
+package com.eletronic.eletronic.models.user;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,7 +19,7 @@ import lombok.Setter;
 @Setter
 public class UserEntity {
 
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "user_user";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +41,14 @@ public class UserEntity {
     @NotBlank
     private String address;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @NotNull
     @NotBlank
+    @Email
     private String email;
 
+    @Column(name = "is_deleted")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private boolean isDeleted = false;
 
 }

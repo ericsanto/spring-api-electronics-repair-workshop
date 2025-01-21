@@ -1,4 +1,4 @@
-package com.eletronic.eletronic.producteletronic;
+package com.eletronic.eletronic.models.user.producteletronic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -42,15 +42,9 @@ public class    ProductEletronicEntity
     @NotBlank
     private String numberOfSerie;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)// Não retorna o campo isDeleted no Get
+    @Column(name = "is_deleted")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)// Não retorna o campo isDeleted no Get
     private boolean isDeleted = false;
 
-    public ProductEletronicEntity(ProductEletronicDTO data) {
-        this.typeEletronic = data.typeEletronic();
-        this.mark = data.mark();
-        this.model = data.model();
-        this.numberOfSerie = data.numberOfSerie();
-
-    }
 }
 
