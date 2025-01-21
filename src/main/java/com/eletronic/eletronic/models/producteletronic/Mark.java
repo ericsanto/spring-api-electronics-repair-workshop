@@ -1,4 +1,4 @@
-package com.eletronic.eletronic.models.user.producteletronic;
+package com.eletronic.eletronic.models.producteletronic;
 
 public enum Mark {
 
