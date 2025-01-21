@@ -1,6 +1,6 @@
 package com.eletronic.eletronic.service;
 
-import com.eletronic.eletronic.producteletronic.ProductEletronicEntity;
+import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
 import com.eletronic.eletronic.repository.ProductEletronicRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +52,12 @@ public class ProductEletronicService {
 
     }
 
-    @Transactional
     public void deleteProduct(Long id) {
         ProductEletronicEntity eletronic = this.getProductFindById(id);
 
         eletronic.setDeleted(true);
+
+        this.repository.save(eletronic);
 
     }
 

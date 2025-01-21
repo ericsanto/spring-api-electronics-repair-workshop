@@ -1,4 +1,4 @@
-package com.eletronic.eletronic.models.user.producteletronic;
+package com.eletronic.eletronic.models.producteletronic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
