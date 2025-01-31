@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adoptopenjdk'  # Ou 'corretto', 'zulu', etc., dependendo da distribuição que você escolher
-          java-version: '23'
+          java-version: '17'
 
 
       - name: Build with Maven
