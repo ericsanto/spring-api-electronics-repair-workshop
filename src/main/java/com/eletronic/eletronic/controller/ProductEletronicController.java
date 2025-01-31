@@ -44,11 +44,11 @@ public class ProductEletronicController {
         return ResponseEntity.status(HttpStatus.CREATED).body(eletronic);
     }
 
-    @PutMapping("/eletronic")
-    public ResponseEntity<ProductEletronicEntity> putProductEletronic(@RequestBody ProductEletronicEntity  data) {
-        ProductEletronicEntity eletronic = this.service.update(data);
+    @PutMapping("/eletronic/{id}")
+    public ResponseEntity<ProductEletronicEntity> putProductEletronic(@PathVariable("id") Long id, @RequestBody ProductEletronicEntity  data) {
+        ProductEletronicEntity eletronic = this.service.update(id, data);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(eletronic);
 
     }
 
