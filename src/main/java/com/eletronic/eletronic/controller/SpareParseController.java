@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@Transactional
 @Validated
 public class SpareParseController {
 
@@ -37,13 +36,13 @@ public class SpareParseController {
 
     @PostMapping("/sparepart")
     public ResponseEntity<SparePartsEntity> postSparePart(@RequestBody SparePartsEntity data) {
-        SparePartsEntity sparePart = this.service.creteSparePart(data);
+        SparePartsEntity sparePart = this.service.postSparePart(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(sparePart);
     }
 
     @PutMapping("/sparepart/{id}")
     public ResponseEntity<SparePartsEntity> putSparePart(@PathVariable("id") Long id, @RequestBody SparePartsEntity data) {
-        SparePartsEntity sparePart = this.service.updateSparePart(id, data);
+        SparePartsEntity sparePart = this.service.putSparePart(id, data);
 
         return ResponseEntity.ok().body(sparePart);
     }
