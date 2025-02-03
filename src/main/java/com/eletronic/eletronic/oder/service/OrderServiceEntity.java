@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class OrderService {
+public class OrderServiceEntity {
 
 
     @Id

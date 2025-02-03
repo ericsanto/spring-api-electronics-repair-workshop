@@ -40,11 +40,11 @@ public class ProductEletronicControllerIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        // Limpa o banco de dados antes de cada teste
+
         productEletronicRepository.deleteAll();
         userRepository.deleteAll();
 
-        // Cria um usuário com um e-mail único
+
         UserEntity user = new UserEntity();
         user.setAddress("rua");
         user.setTelephone("12345");
@@ -53,7 +53,7 @@ public class ProductEletronicControllerIntegrationTest {
 
         userRepository.save(user);
 
-        // Cria um produto eletrônico associado ao usuário
+
         ProductEletronicEntity product1 = new ProductEletronicEntity();
         product1.setTypeEletronic(TypeEletronic.TV);
         product1.setMark(Mark.SAMSUNG);
@@ -75,7 +75,7 @@ public class ProductEletronicControllerIntegrationTest {
 
     @Test
     public void testPostProductEletronics() throws Exception {
-        // Cria um novo usuário com um e-mail único para o teste de POST
+
         UserEntity user = new UserEntity();
         user.setAddress("ruaa");
         user.setTelephone("123458");

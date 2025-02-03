@@ -1,6 +1,8 @@
 package com.eletronic.eletronic.models.user;
 
 
+import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -10,6 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = UserEntity.TABLE_NAME)
@@ -50,5 +55,9 @@ public class UserEntity {
     @Column(name = "is_deleted")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isDeleted = false;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ProductEletronicEntity> productEletronics = new ArrayList<>();
 
 }

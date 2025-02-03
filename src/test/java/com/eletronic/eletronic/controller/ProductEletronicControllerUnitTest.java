@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductEletronicControllerUnitTest {
@@ -104,7 +104,7 @@ public class ProductEletronicControllerUnitTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(productEletronic1.isDeleted(), response.getBody().isDeleted());
 
-
+        verify(service, times(1)).update(1L, productEletronic1);
     }
 
 }
