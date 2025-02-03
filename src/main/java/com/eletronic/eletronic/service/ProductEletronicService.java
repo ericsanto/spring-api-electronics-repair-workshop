@@ -1,11 +1,20 @@
 package com.eletronic.eletronic.service;
 
 import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
+import com.eletronic.eletronic.order.service.part.OrderServicePart;
 import com.eletronic.eletronic.repository.ProductEletronicRepository;
+import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +47,8 @@ public class ProductEletronicService {
     }
 
     @Transactional
-    public  ProductEletronicEntity update(ProductEletronicEntity data){
-        ProductEletronicEntity newEletronic = this.getProductFindById(data.getId());
+    public  ProductEletronicEntity update(Long id, ProductEletronicEntity data){
+        ProductEletronicEntity newEletronic = this.getProductFindById(id);
 
         newEletronic.setTypeEletronic(data.getTypeEletronic());
         newEletronic.setNumberOfSerie(data.getNumberOfSerie());
@@ -61,5 +70,35 @@ public class ProductEletronicService {
 
     }
 
+    @Entity
+    @Table(name= "order_service")
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static class OrderService {
+
+
+        @Id
+        @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+
+        @Column(name = "description")
+        private String description;
+
+        @Column(name = "date_open")
+        @NotNull
+        @NotBlank
+        private LocalDateTime dateOpen;
+
+        @Column(name = "date_close")
+        private LocalDateTime dateClose;
+
+        @OneToMany(mappedBy = "orderService", cascade = CascadeType.ALL , orphanRemoval = true)
+        private List<OrderServicePart> orderServicePart;
+
+    }
 }
 
