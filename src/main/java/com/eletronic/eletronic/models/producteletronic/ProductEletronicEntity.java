@@ -1,5 +1,7 @@
 package com.eletronic.eletronic.models.producteletronic;
 
+import com.eletronic.eletronic.models.user.UserEntity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -45,6 +47,11 @@ public class    ProductEletronicEntity
     @Column(name = "is_deleted")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)// Não retorna o campo isDeleted no Get
     private boolean isDeleted = false;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    @JsonBackReference
+    private UserEntity client;
 
 }
 
