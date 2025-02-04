@@ -1,5 +1,6 @@
 package com.eletronic.eletronic.controller;
 
+import com.eletronic.eletronic.models.producteletronic.ProductEletronicDTO;
 import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
 import com.eletronic.eletronic.service.ProductEletronicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +39,26 @@ public class ProductEletronicController {
     }
 
     @PostMapping("/eletronic")
-    public ResponseEntity<ProductEletronicEntity> postProductEntity(@RequestBody ProductEletronicEntity data){
-        ProductEletronicEntity eletronic = this.service.create(data);
+    public ResponseEntity<ProductEletronicEntity> postProductEntity(@RequestBody ProductEletronicDTO data){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(eletronic);
+
+        ProductEletronicEntity eletronic = data.transformDtoForProductEletronicEntity();
+
+        ProductEletronicEntity eletronicSaved = this.service.create(eletronic);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(eletronicSaved);
     }
 
     @PutMapping("/eletronic/{id}")
-    public ResponseEntity<ProductEletronicEntity> putProductEletronic(@PathVariable("id") Long id, @RequestBody ProductEletronicEntity  data) {
-        ProductEletronicEntity eletronic = this.service.update(id, data);
+    public ResponseEntity<ProductEletronicEntity> putProductEletronic(@PathVariable("id") Long id, @RequestBody ProductEletronicDTO  data) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(eletronic);
+
+        ProductEletronicEntity eletronic = data.transformDtoForProductEletronicEntity();
+
+        ProductEletronicEntity productEletronicSaved = this.service.update(id, eletronic);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(productEletronicSaved);
 
     }
 

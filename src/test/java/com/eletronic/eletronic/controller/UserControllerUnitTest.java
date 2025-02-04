@@ -1,5 +1,6 @@
 package com.eletronic.eletronic.controller;
 
+import com.eletronic.eletronic.models.user.UserDto;
 import com.eletronic.eletronic.service.UserService;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,12 +31,16 @@ public class UserControllerUnitTest {
     @InjectMocks
     private UserController controller;
 
+
+    private UserEntity userEntity;
+
     private UserEntity user1;
 
     private UserEntity user2;
 
     @BeforeEach
     public void setUp() {
+
 
         user1 = new UserEntity();
         user1.setName("eruc");
@@ -83,12 +88,16 @@ public class UserControllerUnitTest {
     @Test
     public void createUser() {
 
-        when(service.createUser(user1)).thenReturn(user1);
+        UserDto userDto = new UserDto("eric", "8484849", "eric@mail.com", "dgrrgrg");
 
-        ResponseEntity<UserEntity> response = controller.postUser(user1);
+        UserEntity userEntity = userDto.tranformForUserEntity();
+
+        when(service.createUser(any(UserEntity.class))).thenReturn(userEntity);
+
+        ResponseEntity<UserEntity> response = controller.postUser(userDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(1L, response.getBody().getId());
+        assertEquals("eric", response.getBody().getName());
 
 
     }
@@ -96,16 +105,18 @@ public class UserControllerUnitTest {
     @Test
     public void putUser() {
 
-        user1.setName("teste");
+        UserDto userDto = new UserDto("ERIC", "89959569", "teste@mail.com", "dfjfjdfjfdj");
 
-        when(service.updateUser(1L, user1)).thenReturn(user1);
+        UserEntity user = userDto.tranformForUserEntity();
 
-        ResponseEntity<UserEntity> response = controller.putUser(1L, user1);
+        when(service.updateUser(eq(1L), any(UserEntity.class))).thenReturn(user);
+
+        ResponseEntity<UserEntity> response = controller.putUser(1L, userDto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("teste", response.getBody().getName());
+        assertEquals("ERIC", response.getBody().getName());
 
-        verify(service, times(1)).updateUser(1L, user1);
+        verify(service, times(1)).updateUser(eq(1L), any(UserEntity.class));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.eletronic.eletronic.controller;
 
+import com.eletronic.eletronic.models.user.UserDto;
 import com.eletronic.eletronic.service.UserService;
 import com.eletronic.eletronic.models.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<UserEntity>> getUsers() {
+
+
         List<UserEntity> users = this.sevice.getAllUser();
         List<UserEntity> usersNotDeleted = users.stream()
                 .filter(user -> !user.isDeleted()) // filter the elements with value user.isDeleted = false
@@ -45,18 +48,24 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserEntity> postUser(@RequestBody UserEntity data) {
-        UserEntity user = this.sevice.createUser(data);
+    public ResponseEntity<UserEntity> postUser(@RequestBody UserDto data) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        UserEntity user = data.tranformForUserEntity();
+
+        UserEntity userSaved = this.sevice.createUser(user);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userSaved);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserEntity> putUser(@PathVariable("id") Long id, @RequestBody UserEntity data)  {
+    public ResponseEntity<UserEntity> putUser(@PathVariable("id") Long id, @RequestBody UserDto data)  {
 
-        UserEntity user = this.sevice.updateUser(id, data);
 
-        return ResponseEntity.ok().body(user);
+        UserEntity user = data.tranformForUserEntity();
+
+        UserEntity userSaved = this.sevice.updateUser(id, user);
+
+        return ResponseEntity.ok().body(userSaved);
 
     }
 
