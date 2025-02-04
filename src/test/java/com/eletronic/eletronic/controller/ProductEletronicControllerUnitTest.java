@@ -1,6 +1,7 @@
 package com.eletronic.eletronic.controller;
 
 import com.eletronic.eletronic.models.producteletronic.Mark;
+import com.eletronic.eletronic.models.producteletronic.ProductEletronicDTO;
 import com.eletronic.eletronic.models.producteletronic.ProductEletronicEntity;
 import com.eletronic.eletronic.models.producteletronic.TypeEletronic;
 import com.eletronic.eletronic.models.user.UserEntity;
@@ -86,9 +87,13 @@ public class ProductEletronicControllerUnitTest {
     @Test
     public void postProductEletronic() {
 
-        when(service.create(productEletronic1)).thenReturn(productEletronic1);
+        ProductEletronicDTO productEletronicDTO = new ProductEletronicDTO(TypeEletronic.TV, Mark.SAMSUNG, "848fhfidfdf", "39e4849", user);
 
-        ResponseEntity<ProductEletronicEntity> response = controller.postProductEntity(productEletronic1);
+        ProductEletronicEntity productEletronic = productEletronicDTO.transformDtoForProductEletronicEntity();
+
+        when(service.create(any(ProductEletronicEntity.class))).thenReturn(productEletronic);
+
+        ResponseEntity<ProductEletronicEntity> response = controller.postProductEntity(productEletronicDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(TypeEletronic.TV, response.getBody().getTypeEletronic());
@@ -97,14 +102,18 @@ public class ProductEletronicControllerUnitTest {
     @Test
     public void putProductEletronic() {
 
-        when(service.update(1L, productEletronic1)).thenReturn(productEletronic1);
+        ProductEletronicDTO productEletronicDTO = new ProductEletronicDTO(TypeEletronic.TV, Mark.SAMSUNG, "848fhfidfdf", "39e4849", user);
 
-        ResponseEntity<ProductEletronicEntity> response = controller.putProductEletronic(1L, productEletronic1);
+        ProductEletronicEntity productEletronic = productEletronicDTO.transformDtoForProductEletronicEntity();
+
+        when(service.update(eq(1L), any(ProductEletronicEntity.class))).thenReturn(productEletronic);
+
+        ResponseEntity<ProductEletronicEntity> response = controller.putProductEletronic(1L, productEletronicDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(productEletronic1.isDeleted(), response.getBody().isDeleted());
+        assertEquals(productEletronic.getMark(), response.getBody().getMark());
 
-        verify(service, times(1)).update(1L, productEletronic1);
+        verify(service, times(1)).update(eq(1L), any(ProductEletronicEntity.class));
     }
 
 }
